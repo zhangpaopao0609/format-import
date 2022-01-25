@@ -51,7 +51,7 @@ function isStandardImport(from, origin) {
   }
 };
 
-const from6 = '/a/index.js'
+const from6 = '/a/index.js';
 const origin6 = '/a/c';  // c 文件中引用 index.js
 
-isStandardImport(from6, origin6)
+isStandardImport(from6, origin6);

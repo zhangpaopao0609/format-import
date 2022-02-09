@@ -62,4 +62,3 @@ export function collectDiagnostics(
 
 	importDiagnostics.set(doc.uri, diagnostics);
 }
-

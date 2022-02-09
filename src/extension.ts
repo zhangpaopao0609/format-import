@@ -1,9 +1,12 @@
 import * as vscode from 'vscode';
 import { subscribeChanges } from "./subscribeChanges";
+import { getImportConfig } from "./getImportConfig";
 
 const COMMAND = 'format-import.rules';
 
 export function activate(context: vscode.ExtensionContext) {
+	getImportConfig();
+	
 	const importDiagnostics = vscode.languages.createDiagnosticCollection("import");
 	subscribeChanges(context, importDiagnostics);
 	context.subscriptions.push(importDiagnostics);

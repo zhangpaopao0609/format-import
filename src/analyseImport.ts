@@ -2,6 +2,8 @@
 import * as vscode from "vscode";
 import * as path from "path";
 
+import { getNowConfig } from "./getImportConfig";
+
 interface ImportStandard {
   code: boolean,  // true 无问题， false 有问题
   start: number,
@@ -39,14 +41,31 @@ function isStandardImport(from: string, origin: string): boolean {
   }
 };
 
+export function resolveAlias(p: string, alias: Record<string, string> = {}) {
+  for (const key in alias) {
+    const re = new RegExp(`^${key}\/`);
+    if (re.test(p)) {
+      return p.replace(re, `${alias[key]}/`);
+    }
+    // todo 这里是否有更合理的做法
+    const reWithSlash = new RegExp(`^${key}`);
+    if (reWithSlash.test(p)) {
+      return p.replace(reWithSlash, alias[key]);
+    }
+  }
+  return p;
+}
+
 export function analyseImport(
   doc: vscode.TextDocument,
   text: string,
 ): ImportStandard[] {
   let res = undefined;
   const data = [] as ImportStandard[];
+  const uri = vscode.window.activeTextEditor!.document.uri;
+  const config = getNowConfig(vscode.workspace.getWorkspaceFolder(uri)?.uri.fsPath);
   while (res = reImport.exec(text) ) {
-    const fromPath = res[1];
+    const fromPath = resolveAlias(res[1], config.alias);
     if (isUserModule(fromPath)) {
       const modulePath = path.join(doc.uri.path, '..', fromPath);
       const code = isStandardImport(modulePath, doc.uri.path);

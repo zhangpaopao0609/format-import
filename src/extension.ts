@@ -35,7 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand(
 			RULES, 
-			() => vscode.env.openExternal(vscode.Uri.parse('https://unicode.org/emoji/charts-12.0/full-emoji-list.html')),
+			() => vscode.env.openExternal(vscode.Uri.parse('http://ui.linlove.cn/')),
 		)
 	);
 };
@@ -57,7 +57,7 @@ export class ImportInfo implements vscode.CodeActionProvider {
 
 	private createCommandCodeAction(diagnostic: vscode.Diagnostic): vscode.CodeAction {
 		const action = new vscode.CodeAction('Learn more...', vscode.CodeActionKind.QuickFix);
-		action.command = { command: COMMAND, title: 'Learn more about import-format standards', tooltip: 'This will open the import-format standards page.' };
+		action.command = { command: RULES, title: 'Learn more about import-format standards', tooltip: 'This will open the import-format standards page.' };
 		action.diagnostics = [diagnostic];
 		action.isPreferred = true;
 		return action;

@@ -6,7 +6,8 @@
 		"url": "https://github.com/ardor-zhang/format-import.git"
 	},
 	"name": "format-import",
-	"displayName": "format import",
+	"icon": "images/icon.png",
+	"displayName": "Format Import",
 	"description": "format import",
 	"author": "ardor-zhang",
 	"publisher": "ardor-zhang",
@@ -49,7 +50,7 @@
 		"lint": "eslint src --ext ts",
 		"test": "node ./out/test/runTest.js",
 		"pack": "vsce package",
-		"release": "vsce publish --yarn"
+		"release": "vsce publish"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.4",

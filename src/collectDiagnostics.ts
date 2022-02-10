@@ -35,6 +35,11 @@ function canSkip(text: string): boolean {
 	return diagnostic;
 }
 
+function multipleLineImport(text: string) {
+	const reImport = /import[^'"]+from/g;
+	return !reImport.test(text);
+}
+
 /**
  * 分析文档存在的引入不规范问题
  * @param doc 待分析的文档
@@ -46,13 +51,21 @@ export function collectDiagnostics(
 ): void {
 	const diagnostics: vscode.Diagnostic[] = [];
 
+	let text = '';
 	for (let lineIndex = 0; lineIndex < doc.lineCount; lineIndex++) {
 		const lineOfText = doc.lineAt(lineIndex);
-		const text = lineOfText.text;
+		text += lineOfText.text;
+		
+		if (canSkip(text)) {
+			text = '';
+			continue;
+		};
+		if (multipleLineImport(text)) {
+			continue;
+		}
 
-		if (canSkip(text)) continue;
-
-		const analyseRes = analyseImport(doc, text);
+		const analyseRes = analyseImport(doc, text, lineOfText);
+		text = '';
 		analyseRes.forEach(diagnostic => {
 			if (!diagnostic.code) {
 				diagnostics.push(createDiagnostic(doc, lineIndex, diagnostic.start, diagnostic.end));

@@ -59,6 +59,7 @@ export function resolveAlias(p: string, alias: Record<string, string> = {}) {
 export function analyseImport(
   doc: vscode.TextDocument,
   text: string,
+  lineOfText: vscode.TextLine
 ): ImportStandard[] {
   let res = undefined;
   const data = [] as ImportStandard[];
@@ -69,13 +70,13 @@ export function analyseImport(
     if (isUserModule(fromPath)) {
       const modulePath = path.join(doc.uri.path, '..', fromPath);
       const code = isStandardImport(modulePath, doc.uri.path, config);
-
+      const t = lineOfText.text;
       const start = code
         ? 0
-        : text.indexOf(res[1]);
+        : t.indexOf(res[1]);
       const end = code
         ? 0
-        : text.indexOf(res[1]) + res[1].length;
+        : t.indexOf(res[1]) + res[1].length;
       data.push({ code, start, end });
     }
   };

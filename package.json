@@ -1,10 +1,17 @@
 {
+	"private": true,
+	"version": "0.0.1",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ardor-zhang/format-import.git"
+	},
 	"name": "format-import",
 	"displayName": "format import",
 	"description": "format import",
-	"version": "0.0.1",
+	"author": "ardor-zhang",
+	"publisher": "ardor-zhang",
 	"engines": {
-		"vscode": "^1.63.0"
+		"vscode": "*"
 	},
 	"categories": [
 		"Other"
@@ -36,7 +43,9 @@
 		"watch-tests": "tsc -p . -w --outDir out",
 		"pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
 		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
+		"test": "node ./out/test/runTest.js",
+		"pack": "vsce package",
+		"release": "vsce publish --yarn"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.4",

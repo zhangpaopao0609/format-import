@@ -8,7 +8,7 @@ const IMPORT = 'import';
 function canSkip(text: string): boolean {
 	// todo 如果是注释，那么忽略，猜测 vscode 应该提供了内置方法判断当前行是否是注释的，否则 python c++ 怎么破
 	// !完全可以只检测 import 语句的，可是怎么仅仅拿到 import 语句呢？
-	return text.startsWith('/') || !text.startsWith(IMPORT)
+	return text.startsWith('/') || !text.startsWith(IMPORT);
 }
 
 /**

@@ -1,8 +1,10 @@
 import * as vscode from 'vscode';
 import { subscribeChanges } from "./subscribeChanges";
 import { getImportConfig } from "./getImportConfig";
+import { IMPORT_MENTION } from "./collectDiagnostics";
 
-const COMMAND = 'format-import.rules';
+const RULES = 'format-import.rules';
+const CHECKALL = 'format-import.checkAll';
 
 export function activate(context: vscode.ExtensionContext) {
 	getImportConfig();
@@ -13,17 +15,26 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.languages.registerCodeActionsProvider(
-			'typescript',
-			new Emojinfo(),
+			"*",
+			new ImportInfo(),
 			{
-				providedCodeActionKinds: Emojinfo.providedCodeActionKinds
+				providedCodeActionKinds: ImportInfo.providedCodeActionKinds
 			}
 		)
 	);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand(
-			COMMAND, 
+			CHECKALL, 
+			() => {
+				// todo 检查所有文档的错误，并输出在控制台
+			},
+		)
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand(
+			RULES, 
 			() => vscode.env.openExternal(vscode.Uri.parse('https://unicode.org/emoji/charts-12.0/full-emoji-list.html')),
 		)
 	);
@@ -32,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() {};
 
 
-export class Emojinfo implements vscode.CodeActionProvider {
+export class ImportInfo implements vscode.CodeActionProvider {
 
 	public static readonly providedCodeActionKinds = [
 		vscode.CodeActionKind.QuickFix
@@ -40,12 +51,13 @@ export class Emojinfo implements vscode.CodeActionProvider {
 
 	provideCodeActions(document: vscode.TextDocument, range: vscode.Range | vscode.Selection, context: vscode.CodeActionContext, token: vscode.CancellationToken): vscode.CodeAction[] {
 		return context.diagnostics
-			.map(diagnostic => this.createCommandCodeAction(diagnostic));
+		.filter(diagnostic => diagnostic.code === IMPORT_MENTION)
+		.map(diagnostic => this.createCommandCodeAction(diagnostic));
 	}
 
 	private createCommandCodeAction(diagnostic: vscode.Diagnostic): vscode.CodeAction {
 		const action = new vscode.CodeAction('Learn more...', vscode.CodeActionKind.QuickFix);
-		action.command = { command: COMMAND, title: 'Learn more about emojis', tooltip: 'This will open the unicode emoji page.' };
+		action.command = { command: COMMAND, title: 'Learn more about import-format standards', tooltip: 'This will open the import-format standards page.' };
 		action.diagnostics = [diagnostic];
 		action.isPreferred = true;
 		return action;

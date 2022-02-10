@@ -4,6 +4,11 @@ import * as vscode from "vscode";
 
 const cache = new Map();
 
+/**
+ * 将用户提供的缩写标准化为绝对路径
+ * @param config 
+ * @param root 绝对路径
+ */
 function addRootForAlias(config: Record<string, any>, root: string) {
   if (config.alias) {
     for (const key in config.alias) {
@@ -14,6 +19,10 @@ function addRootForAlias(config: Record<string, any>, root: string) {
   }
 }
 
+/**
+ * 获取工作区中的所有配置文件内容
+ * @param fileName 配置文件名
+ */
 export function getImportConfig(fileName = 'import.json') {
   const folders = vscode.workspace.workspaceFolders;
   if (folders) {
@@ -27,7 +36,7 @@ export function getImportConfig(fileName = 'import.json') {
       const config = JSON.parse(res || '{}');
       addRootForAlias(config, root);
       cache.set(root, config);
-    })
+    });
   }
 }
 

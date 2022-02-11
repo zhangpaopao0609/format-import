@@ -1,6 +1,6 @@
 {
 	"private": true,
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ardor-zhang/format-import.git"
@@ -15,7 +15,8 @@
 		"vscode": "^1.45.0"
 	},
 	"categories": [
-		"Other"
+		"Linters",
+		"Formatters"
 	],
 	"activationEvents": [
 		"onLanguage:vue",

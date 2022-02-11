@@ -54,4 +54,12 @@ function isStandardImport(from, origin) {
 const from6 = '/a/index.js';
 const origin6 = '/a/c';  // c 文件中引用 index.js
 
-isStandardImport(from6, origin6);
+// isStandardImport(from6, origin6);
+
+const dirName = '../../../../mkt-app/utils/a/dataHandle'
+// console.log();
+const a = dirName.split('/').find((item) => {
+  return item !== '..'
+});
+
+console.log(a);

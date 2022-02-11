@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as vscode from "vscode";
 
 const cache = new Map();
+const FILE_NAME = 'import.json';
 
 /**
  * 将用户提供的缩写标准化为绝对路径
@@ -23,7 +24,7 @@ function addRootForAlias(config: Record<string, any>, root: string) {
  * 获取工作区中的所有配置文件内容
  * @param fileName 配置文件名
  */
-export function getImportConfig(fileName = 'import.json') {
+export function getImportConfig(fileName = FILE_NAME) {
   const folders = vscode.workspace.workspaceFolders;
   if (folders) {
     folders.forEach(f => {
@@ -49,3 +50,9 @@ export function getNowConfig(root?: string) {
   return {};
 };
 
+vscode.workspace.onDidSaveTextDocument(doc => {
+  const fileName = path.basename(doc.fileName)
+  if(fileName === FILE_NAME) {
+    getImportConfig();
+  };
+});

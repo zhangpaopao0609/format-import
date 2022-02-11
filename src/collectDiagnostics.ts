@@ -75,3 +75,36 @@ export function collectDiagnostics(
 
 	importDiagnostics.set(doc.uri, diagnostics);
 }
+
+/**
+ * 文档是否存在不规范问题
+ * @param doc 待分析的文档
+ */
+export function checkDoc(
+	doc: vscode.TextDocument,
+): boolean {
+	let text = '';
+	let flag = false;
+	for (let lineIndex = 0; lineIndex < doc.lineCount; lineIndex++) {
+		const lineOfText = doc.lineAt(lineIndex);
+		text += lineOfText.text;
+		
+		if (canSkip(text)) {
+			text = '';
+			continue;
+		};
+		if (multipleLineImport(text)) {
+			continue;
+		}
+
+		const analyseRes = analyseImport(doc, text, lineOfText);
+		text = '';
+		analyseRes.forEach(diagnostic => {
+			if (!diagnostic.code) {
+				flag = true; 
+			}
+		});
+		if (flag) return flag;
+	}
+	return false;
+}

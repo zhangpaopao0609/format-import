@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { subscribeChanges } from "./subscribeChanges";
 import { getImportConfig } from "./getImportConfig";
 import { IMPORT_MENTION } from "./collectDiagnostics";
+import { checkAll } from "./checkAll";
 
 const RULES = 'format-import.rules';
 const CHECKALL = 'format-import.checkAll';
@@ -26,9 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand(
 			CHECKALL, 
-			() => {
-				// todo 检查所有文档的错误，并输出在控制台
-			},
+			checkAll,
 		)
 	);
 

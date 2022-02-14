@@ -1,6 +1,6 @@
 {
 	"private": true,
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ardor-zhang/format-import.git"
@@ -19,6 +19,8 @@
 		"Formatters"
 	],
 	"activationEvents": [
+		"onCommand:format-import.checkAll",
+		"onCommand:format-import.rules",
 		"onLanguage:vue",
 		"onLanguage:javascript",
 		"onLanguage:typescript",

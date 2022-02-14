@@ -16,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.languages.registerCodeActionsProvider(
-			"*",
+			['vue', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact'],
 			new ImportInfo(),
 			{
 				providedCodeActionKinds: ImportInfo.providedCodeActionKinds
@@ -40,7 +40,6 @@ export function activate(context: vscode.ExtensionContext) {
 };
 
 export function deactivate() {};
-
 
 export class ImportInfo implements vscode.CodeActionProvider {
 

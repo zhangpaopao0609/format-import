@@ -8,7 +8,11 @@ const ignoreDir = [
   '.git',
   '.github',
   '.vscode',
-]
+];
+
+const ignoreFile = ['.vue', '.javascript', '.typescript', '.js', '.ts', '.jsx', '.tsx'];
+
+const IMPORT_TERMINAL = 'format-import';
 
 function getJsonFiles(jsonPath: string) {
   let jsonFiles: string[] = [];
@@ -30,6 +34,12 @@ function getJsonFiles(jsonPath: string) {
   return jsonFiles
 }
 
+function closeImportTerminal() {
+	vscode.window.terminals.forEach(terminal => {
+    if (terminal.name === IMPORT_TERMINAL) terminal.dispose()
+  });
+}
+
 export function checkAll() {
   const folders = vscode.workspace.workspaceFolders;
   const writeEmitter = new vscode.EventEmitter<string>();
@@ -38,22 +48,30 @@ export function checkAll() {
       onDidWrite: writeEmitter.event,
       close: () => { /* noop*/ },
       open: () => {
+        writeEmitter.fire('Here will show all documents path with incorrect import!!\r\n\n');
         folders.forEach(folder => {
           const allFile = getJsonFiles(folder.uri.fsPath);
           allFile.forEach(async (item) => {
             try {
+              if (!ignoreFile.includes(path.extname(item))) return;
               const doc = await vscode.workspace.openTextDocument(item);
               if(checkDoc(doc)) {
-                writeEmitter.fire(`${item}\r\n\n`);
+                writeEmitter.fire(`\x1b[31m${item}\x1b[0m\r\n\n`);
               }
             } catch (error) {
               
             }
           });
         });
+      },
+      handleInput: (data: string) => {
+        // if (data === '\x03') {  // ctrl + c
+        //   writeEmitter.dispose()
+        // }
       }
     };
-    const terminal = (<any>vscode.window).createTerminal({ name: `format-import`, pty });
+    closeImportTerminal();
+    const terminal = vscode.window.createTerminal({ name: IMPORT_TERMINAL, pty });
     terminal.show();
   }
 }

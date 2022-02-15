@@ -11,23 +11,27 @@ This extension is used to check the import method of non best practices in the p
 Search **format import** and install in the marketplace.
 
 2. Add import.json in the root directory of the project
-Users can customize and configure some special fields for this extension via import.json. If there are no special configuration items, this file is not required.
+  Users can customize and configure some special fields for this extension via import.json. If there are no special configuration items, this file is not required.
 
-Configuration reference
-```
-{
-  "alias": {
-    "@": "src"
-  },
-  "whiteDirName": ["effects"]
-}
-```
+  
 
-| field         | description                | type   | options |
-| ------------ | ------------------- | ------ | ------ |
-| alias        | path abbreviation            | object | -      |
-| whiteDirName | directory whitelist during import | string |        |
-|              |                     |        |        |
+  **Configuration reference**
+
+  ```
+  {
+    "alias": {
+      "@": "src"
+    },
+    "whiteDirName": ["effects"]
+  }
+  ```
+
+  | field        | description                       | type   | options |
+  | ------------ | --------------------------------- | ------ | ------- |
+  | alias        | path abbreviation                 | object | -       |
+  | whiteDirName | directory whitelist during import | string |         |
+  |              |                                   |        |         |
+
 
 3. Get the path of all documents with 'import' problem
 - press: Ctrl/Command+Shift+p

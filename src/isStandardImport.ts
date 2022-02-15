@@ -2,7 +2,7 @@
 import * as path from "path";
 
 // todo 还有用户自定义的文件夹名
-const whiteDirName = ['', 'util', 'utils', 'component', 'components', 'type', 'types', 'store', 'stores', 'api'];
+const whiteDirName = ['', 'util', 'utils', 'component', 'components', 'type', 'types', 'store', 'stores', 'router', 'routers', 'api'];
 
 /**
  * 判断引入是否符合规范，这是本插件的最核心的内容了，这里暂时这样粗略判断
